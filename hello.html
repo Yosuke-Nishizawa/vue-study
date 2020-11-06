@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <p>{{message}}</p>
+    <p v-text="message"></p>
+    <p v-pre>{{message}}</p>
+    <a v-bind:href="url">WINGSプロジェクト</a><br/>
+    <a :href="url">WINGSプロジェクト</a><br>
+    <input type="button" value="クリック" :disabled="flag">
+    <p>{{email.split('@')[0].toLowerCase()}}</p>
+    <p>{{localEmail}}</p>
+    <p>{{localEmailMethod()}}</p>
+    <hr>
+    <form><input type="button" value="クリック" v-on:click="onclick"></form>
+    <div>算出プロパティ: {{randomc}}</div>
+    <div>メソッド: {{randomm()}}</div>
+    <div>現在日時: {{current}}</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="js/hello.js"></script>
+</body>
+</html>
