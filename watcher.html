@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <label for=""><input type="text" v-model="name"></label>
+    <p>入力された値(遅延): {{upperName}}</p>
+    <p>入力された値2(遅延): {{upperName2}}</p>
+    <p>入力された値: {{upperNameImmediate}}</p>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="js/watcher.js"></script>
+</body>
+
+</html>

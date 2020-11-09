@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <img alt="ロゴ画像" v-bind:src="path" @mouseenter="onmouseenter" @mouseleave="onmouseleave">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        path: 'http://www.web-deli.com/image/linkbanner_l.gif'
+      },
+      methods: {
+        onmouseenter: function () {
+          this.path = 'http://www.web-deli.com/image/home_chara.gif';
+        },
+        onmouseleave: function () {
+          this.path = 'http://www.web-deli.com/image/linkbanner_l.gif';
+        }
+      },
+    });
+  </script>
+</body>
+
+</html>

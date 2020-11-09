@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .outer,
+    .inner {
+      border: 2px solid black;
+      padding: 2rem;
+    }
+
+    .result {
+      border: 1px solid black;
+    }
+
+    .outer {
+      width: 50%;
+      margin: 0 auto;
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .flex>* {
+      flex: 0 0 50%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <strong>mouse enter, mouse leave</strong>
+    <p>外側の要素のみに作用する</p>
+    <div class="flex">
+      <div class="box">
+        <div class="outer" @mouseenter="onmouseenter" @mouseleave="onmouseleave">
+          外(outer)
+          <p class="inner">内(inner)</p>
+        </div>
+      </div>
+      <div class="result" v-html="result1"></div>
+    </div>
+    <hr>
+    <strong>mouse over, mouse out</strong>
+    <p>入れ子の要素にもマウスイベントが影響する</p>
+    <div class="flex">
+      <div class="box">
+        <div class="outer" @mouseover="onmouseover" @mouseout="onmouseout">
+          外(outer)
+          <p class="inner">内(inner)</p>
+        </div>
+      </div>
+      <div class="result" v-html="result2">イベント結果<br /></div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        result1: 'イベント処理結果:<br/>',
+        result2: 'イベント処理結果:<br/>',
+      },
+      methods: {
+        onmouseenter: function (e) {
+          this.result1 += `Enter:${e.target.classList[0]}<br/>`;
+        },
+        onmouseleave: function (e) {
+          this.result1 += `Leave:${e.target.classList[0]}<br/>`;
+        },
+        onmouseover: function (e) {
+          this.result2 += `Over:${e.target.classList[0]}<br/>`;
+        },
+        onmouseout: function (e) {
+          this.result2 += `Out:${e.target.classList[0]}<br/>`;
+        },
+      },
+    });
+  </script>
+</body>
+
+</html>

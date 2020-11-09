@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <form>
+      <label>いぬ<input type="radio" id="dog" value="いぬ" v-model="pet"></label>
+      <br />
+      <label>ねこ<input type="radio" id="cat" value="ねこ" v-model="pet"></label>
+      <br />
+      <label>その他<input type="radio" id="other" value="その他" v-model="pet"></label>
+      <br />
+    </form>
+    <p>ペット: {{pet}}</p>
+  </div>
+  <hr>
+  <div id="checkbox_simple">
+    <form>
+      <label for="agree">同意する:</label>
+      <input type="checkbox" v-model="agree" id="agree">
+    </form>
+    <div>回答: {{agree}}</div>
+  </div>
+  <hr>
+  <div id="checkbox_multi">
+    <form>
+      <p>お使いのOSは？</p>
+      <label for="windows">Windows</label>
+      <input type="checkbox" value="Windows" id="windows" v-model="os">
+      <label for="linux">linux</label>
+      <input type="checkbox" value="linux" id="linux" v-model="os">
+      <label for="mac">MacOS</label>
+      <input type="checkbox" value="macOS" id="mac" v-model="os">
+    </form>
+    <div>回答: {{os}}</div>
+  </div>
+  <hr>
+  <div id="model_obj">
+    <form>
+      <label>
+        百万:
+        <input type="radio" v-model="unit" @change="onchange" v-bind:value="{name: '百万', size: 1000000}">
+      </label>
+      <label>
+        十億:
+        <input type="radio" v-model="unit" @change="onchange" v-bind:value="{name: '十億', size: 1000000000}">
+      </label>
+      <label>
+        一兆:
+        <input type="radio" v-model="unit" @change="onchange" v-bind:value="{name: '一兆', size: 1000000000000}">
+      </label>
+    </form>
+    <p>name:{{name}}, size:{{size}}</p>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        pet: 'いぬ'
+      },
+    });
+    new Vue({
+      el: '#checkbox_simple',
+      data: {
+        agree: true
+      }
+    })
+    new Vue({
+      el: '#checkbox_multi',
+      data: {
+        os: ['Windows', 'macOS']
+      }
+    })
+    new Vue({
+      el: '#model_obj',
+      data: {
+        unit: {},
+        name: '',
+        size: '',
+      },
+      methods: {
+        onchange: function () {
+          this.name = this.unit.name;
+          this.size = this.unit.size;
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
