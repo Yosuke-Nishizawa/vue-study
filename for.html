@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <table class="table">
+      <th>#</th>
+      <th>ISBN</th>
+      <th>書名</th>
+      <th>価格</th>
+      <tr v-for="(b, i) in books">
+        <td>{{i + 1}}</td>
+        <td v-for="(value, key, j) in b" :title="key">{{value}}</td>
+      </tr>
+    </table>
+  </div>
+  <hr>
+  <div id="num">
+    <span v-for="i in 5">{{i*2}} </span>
+  </div>
+  <hr>
+  <div id="songs">
+    <template v-for="s in songs">
+      <header>{{s.title}}</header>
+      <div>{{s.lyrics}}</div>
+      <footer>{{s.composer}}作曲</footer>
+    </template>
+  </div>
+  <hr>
+  <div id="for_change">
+    <form>
+      <input type="button" value="変更" @click="onclick">
+    </form>
+    <ul>
+      <li v-for="item in list" :key="item">{{item}}</li>
+    </ul>
+  </div>
+  <!------------------------------------------------>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!------------------------------------------------>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        books: [
+          {
+            isbn: '978-4-7981-5757-3',
+            title: 'JavaScript逆引きレシピ',
+            price: 2800
+          },
+          {
+            isbn: '978-4-7981-5757-3',
+            title: 'JavaScript逆引きレシピ',
+            price: 2800
+          },
+          {
+            isbn: '978-4-7981-5757-3',
+            title: 'JavaScript逆引きレシピ',
+            price: 2800
+          },
+          {
+            isbn: '978-4-7981-5757-3',
+            title: 'JavaScript逆引きレシピ',
+            price: 2800
+          },
+        ]
+      },
+    });
+    new Vue({
+      el: '#num'
+    })
+    new Vue({
+      el: '#songs',
+      data: {
+        songs: [
+          {
+            title: '赤とんぼ',
+            lyrics: '夕焼け小焼けの赤とんぼ...',
+            composer: '山田耕筰'
+          },
+          {
+            title: '赤とんぼ',
+            lyrics: '夕焼け小焼けの赤とんぼ...',
+            composer: '山田耕筰'
+          },
+        ]
+      }
+    })
+    new Vue({
+      el: '#for_change',
+      data: {
+        list: ['赤パジャマ', '青パジャマ', '黄パジャマ']
+      },
+      methods: {
+        onclick: function () {
+          // this.list[1] = '茶パジャマ';
+          // Vue.set(this.list, 1, '茶パジャマ');
+          this.list.shift();
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <div v-on:contextmenu.prevent :style="{border: '1px solid black', width: '50%', height: '100px'}">
+      この領域ではコンテキストメニューは表示されません
+    </div>
+  </div>
+  <div id="submit">
+    <form action="" @submit="onsubmit">
+      <label>
+        mail:
+        <input type="email" name="email">
+      </label>
+      <input type="submit" value="送信">
+    </form>
+  </div>
+  <div id="uranai">
+    <input type="button" value="結果表示" @click.once="onclick">
+    <p>今日の運勢は{{result}}点です。</p>
+  </div>
+  <style>
+    #propagation div {
+      border: 1px solid black;
+    }
+  </style>
+  <div id="propagation">
+    <div @click="onParentClick">
+      親要素
+      <div @click.self="onMyClick">
+        現在要素
+        <div @click="onChildClick">
+          子要素
+        </div>
+      </div>
+    </div>
+    <div @click.capture="onParentClick">
+      親要素
+      <div @click.capture.stop="onMyClick">
+        現在要素
+        <div @click.capture="onChildClick">
+          子要素
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="key">
+    <form action="">
+      <label>
+        name:
+        <input type="text" @keyup.up="clear" v-model="name">
+      </label>
+    </form>
+  </div>
+  <!------------------------------------------------>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!------------------------------------------------>
+  <script>
+    new Vue({
+      el: '#app',
+    })
+    new Vue({
+      el: '#submit',
+      methods: {
+        onsubmit: function (e) {
+          if (!confirm('送信してもよろしいですか？')) {
+            e.preventDefault();
+            return;
+          }
+        }
+      }
+    })
+    new Vue({
+      el: '#uranai',
+      data: {
+        result: '-'
+      },
+      methods: {
+        onclick: function (e) {
+          this.result = Math.floor(Math.random() * 100) + 1;
+        }
+      }
+    })
+    new Vue({
+      el: '#propagation',
+      methods: {
+        onParentClick: function (e) {
+          console.log('#parent run...');
+        },
+        onMyClick: function (e) {
+          console.log('#my run...');
+        },
+        onChildClick: function (e) {
+          console.log('#Child run...');
+        },
+      }
+    })
+    new Vue({
+      el: '#key',
+      data: {
+        name: '匿名'
+      },
+      methods: {
+        clear: function () {
+          this.name = '';
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

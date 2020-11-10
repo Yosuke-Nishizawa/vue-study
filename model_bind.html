@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="model_number">
+    <form>
+      <label>
+        サウナの温度:
+        <input type="text" v-model.number="temperature" v-on:change="onchange">
+      </label>
+    </form>
+  </div>
+  <hr>
+  <div id="model_trim">
+    <form>
+      <label>
+        メモ：
+        <input type="text" v-model.trim="memo" v-on:change="onchange">
+      </label>
+    </form>
+  </div>
+  <hr>
+  <div id="model_lazy">
+    <form>
+      <label>
+        氏名:
+        <input type="text" v-model.lazy="myName">
+      </label>
+    </form>
+    <div>こんにちは、{{myName}}さん！</div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#model_number',
+      data: {
+        temperature: 0
+      },
+      methods: {
+        onchange: function () {
+          console.log(this.temperature.toFixed(1));
+        }
+      }
+    });
+    new Vue({
+      el: '#model_trim',
+      data: {
+        memo: ''
+      },
+      methods: {
+        onchange: function () {
+          console.log(`入力値は「${this.memo}」です。`);
+        }
+      }
+    })
+    new Vue({
+      el: '#model_lazy',
+      data: {
+        myName: '匿名'
+      }
+    })
+  </script>
+</body>
+
+</html>

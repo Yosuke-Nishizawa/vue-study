@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <form>
+      <label>
+        メールアドレス:
+        <textarea v-bind:value="mails.join(';')" v-on:input="mails=$event.target.value.split(';')"></textarea>
+      </label>
+    </form>
+    <ul>
+      <li v-for="mail in mails">{{mail}}</li>
+    </ul>
+  </div>
+  <hr>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        mails: [],
+      },
+    });
+  </script>
+</body>
+
+</html>

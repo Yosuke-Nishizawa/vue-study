@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <form>
+      <label>
+        <input type="text" v-bind="attrs">
+      </label>
+    </form>
+  </div>
+  <div id="prop">
+    <div v-bind:text-content.prop="text"></div>
+  </div>
+  <div id="dynamic">
+    <select name="" id="" v-model="attr">
+      <option value="height">高さ</option>
+      <option value="width">幅</option>
+    </select>
+    <input type="number" size="5" v-model="size"><br>
+    <img src="https://wings.msn.to/image/wings.jpg" v-bind:[attr]="size" alt="">
+  </div>
+  <!------------------------------------------------>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!------------------------------------------------>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        attrs: {
+          size: 20,
+          maxlength: 14,
+          required: true,
+        }
+      }
+    })
+    new Vue({
+      el: '#prop',
+      data: {
+        text: '皆さん、こんにちは！'
+      }
+    })
+    new Vue({
+      el: '#dynamic',
+      data: {
+        attr: 'width',
+        size: 100
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <div v-bind:style="{backgroundColor: 'Aqua', fontSize: '1.5em'}">
+      皆さん、こんにちは！
+    </div>
+  </div>
+  <div id="multi">
+    <div :style="[color, size]">
+      皆さん、こんにちは！
+    </div>
+  </div>
+  <div id="vender">
+    <a :href="url" :style="{'tap-highlight-color': 'Aqua'}">{{url}}</a>
+  </div>
+  <div id="class">
+    <div class="small" :class="{color, frame: isChange}">
+      皆さん、こんにちは！
+    </div>
+  </div>
+  <!------------------------------------------------>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <!------------------------------------------------>
+  <script>
+    new Vue({
+      el: '#app',
+    })
+    new Vue({
+      el: '#multi',
+      data: {
+        color: {
+          backgroundColor: 'Aqua',
+          color: 'Red'
+        },
+        size: {
+          fontSize: '1.5em'
+        }
+      }
+    })
+    new Vue({
+      el: '#vender',
+      data: {
+        url: 'https://wings/msn.to/'
+      }
+    })
+    new Vue({
+      el: '#class',
+      data: {
+        color: true,
+        isChange: true,
+      }
+    })
+  </script>
+</body>
+
+</html>
