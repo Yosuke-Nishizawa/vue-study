@@ -61,6 +61,13 @@
       </label>
     </form>
   </div>
+  <div id="event_sys">
+    <form action="">
+      <label>
+        <input type="text" @keyup.alt.exact.key-q="help" v-model="name">
+      </label>
+    </form>
+  </div>
   <!------------------------------------------------>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <!------------------------------------------------>
@@ -112,6 +119,20 @@
       methods: {
         clear: function () {
           this.name = '';
+        }
+      }
+    })
+    Vue.config.keyCodes = {
+      'key-q': 81
+    };
+    new Vue({
+      el: '#event_sys',
+      data: {
+        name: '匿名'
+      },
+      methods: {
+        help: function () {
+          window.alert('氏名(漢字)を入力してください');
         }
       }
     })
