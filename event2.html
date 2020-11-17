@@ -7,6 +7,43 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <title>Document</title>
+  <style>
+    .cxt {
+      position: absolute;
+      z-index: 99;
+      padding: 0px;
+      border-width: 1px;
+      border-style: solid;
+      background-color: #e8e8e8;
+    }
+
+    .cxt li {
+      padding: 5px 15px 5px 15px;
+      list-style: none;
+      border-bottom-color: #ccc;
+      border-bottom-width: 1px;
+      border-bottom-style: dotted;
+      color: #000;
+      cursor: pointer;
+    }
+
+    .cxt a {
+      color: #000;
+      text-decoration: none;
+    }
+
+    .cxt li.sep {
+      border-bottom-width: 2px;
+      border-bottom-style: solid;
+    }
+
+    #event_mousebtn .main {
+      position: relative;
+      border: solid 1px #000;
+      height: 300px;
+      width: 400px;
+    }
+  </style>
 </head>
 
 <body>
@@ -67,6 +104,16 @@
         <input type="text" @keyup.alt.exact.key-q="help" v-model="name">
       </label>
     </form>
+  </div>
+  <div id="event_mousebtn">
+    <div class="main" @click.left="onleftclick" @click.right.prevent="onrightclick">
+      ボタンの右クリックでコンテキストメニューを表示します。
+    </div>
+    <ul class="cxt" :style="pos" v-show="show">
+      <li><a href="https://wings.msn.to/index.php/-/A-08/">ヘルプ</a></li>
+      <li><a href="https://wings.msn.to/index.php/-/B-14/">質問掲示板</a></li>
+      <li><a href="https://wings/msn.to/index.php/-/B-11/">よくある質問一覧</a></li>
+    </ul>
   </div>
   <!------------------------------------------------>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -133,6 +180,32 @@
       methods: {
         help: function () {
           window.alert('氏名(漢字)を入力してください');
+        }
+      }
+    })
+    new Vue({
+      el: '#event_mousebtn',
+      data: {
+        //コンテキストメニューの表示位置
+        pos: {
+          left: 0,
+          top: 0
+        },
+        // コンテキストメニューの表示状態
+        show: false
+      },
+      methods: {
+        // 左クリックでメニューを非表示
+        onleftclick: function () {
+          this.show = false;
+        },
+        // 右クリックでメニューを表示
+        onrightclick: function (e) {
+          this.pos = {
+            top: e.pageY + 'px',
+            left: e.pageX + 'px'
+          };
+          this.show = true;
         }
       }
     })
