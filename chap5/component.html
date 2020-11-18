@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="banner">
+    <component v-bind:is="currentBanner" />
+  </div>
+  <style>
+    #container {
+      width: 450px;
+    }
+
+    #container>ul {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    #container>ul li {
+      list-style-type: none;
+      float: left;
+      line-height: 160%;
+      width: 150px;
+      height: 40px;
+    }
+
+
+    #container>ul li a {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      background-color: #f8f1b3;
+      color: #000;
+      border: solid 1px Black;
+    }
+
+    #container>div {
+      border: 1px solid #c0c0c0;
+      background-color: #fcfbf4;
+      border-top: none;
+      padding: 15px;
+    }
+  </style>
+  <div id="tabs">
+    <div id="container">
+      <ul>
+        <li v-for="tab in tabNames">
+          <a href="#" @click.prevent="onclick(tab)">{{tabs[tab]}}</a>
+        </li>
+      </ul>
+      <keep-alive>
+        <component v-bind:is="currentTab"></component>
+      </keep-alive>
+    </div>
+  </div>
+  <div id="model_basic">
+    <my-input v-model="message"></my-input>
+    <p>入力値: {{message}}</p>
+    <my-input2 v-model="message2"></my-input2>
+    <p>入力値: {{message2}}</p>
+  </div>
+  <div id="model_sync">
+    <my-input-sync :value.sync="message"></my-input-sync>
+    <p>入力値: {{message}}</p>
+  </div>
+  <!--/////////////////////////////////////////////-->
+  <!--/////////////////////////////////////////////-->
+  <!--/////////////////////////////////////////////-->
+  <!--/////////////////////////////////////////////-->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script>
+    Vue.component('banner-member', {
+      template: `<div class="banner">
+        <h3>WINGSメンバー募集中!</h3>
+        <p>あなたもWINGSプロジェクトに参加しませんか？<br/>
+        現在、WINGSプロジェクトでは、ご一緒にお仕事ができる仲間を募集中です。</p>
+      </div>`
+    })
+    Vue.component('banner-new', {
+      template: `<div class="banner">
+        <h3>ニューカマー募集</h3>
+        <p>あなたもWINGSプロジェクトに参加しませんか？<br/>
+        現在、WINGSプロジェクトでは、ご一緒にお仕事ができる仲間を募集中です。</p>
+      </div>`
+    })
+    Vue.component('banner-env', {
+      template: `<div class="banner">
+        <h3>環境最高！</h3>
+        <p>あなたもWINGSプロジェクトに参加しませんか？<br/>
+        現在、WINGSプロジェクトでは、ご一緒にお仕事ができる仲間を募集中です。</p>
+      </div>`
+    })
+    new Vue({
+      el: '#banner',
+      created: function () {
+        let that = this;
+        this.interval = setInterval(function () {
+          that.current = (that.current + 1) % that.components.length;
+        }, 3000);
+      },
+      beforeDestroy: function () {
+        clearInterval(this.interval);
+      },
+      computed: {
+        currentBanner: function () {
+          return `banner-${this.components[this.current]}`;
+        }
+      },
+      data: {
+        current: 0,
+        components: ['member', 'new', 'env']
+      }
+    })
+    Vue.component('tab-member', {
+      template: `<div class="tab">
+        <p>あなたもWINGSプロジェクトに参加しませんか？<br/>
+          現在、WINGSプロジェクトでは、ご一緒にお仕事ができる...</p>
+        <label>名前: <input type="text" v-model="name"/></label>
+        <input type="submit" value="登録"/>
+      </div>`,
+      data: function () {
+        return {
+          name: ''
+        }
+      }
+    });
+    Vue.component('tab-new', {
+      template: `<div class="tab">
+    <h3>「HTML5超入門 」発売！</h3>
+    <p>ステップバイステップで学ぶ入門書です。<br />
+      HTML5アプリの基礎知識、画面のデザイン、コードの書き方などが理解できます。</p>
+  </div>`
+    });
+
+    Vue.component('tab-env', {
+      template: `<div class="tab">
+    <p>開発環境の設定方法を図を交えて詳しく解説します。<br />
+      紹介している各モジュールは、日々頻繁にバージョンアップが行われています。</p>
+  </div>`
+    });
+    new Vue({
+      el: '#tabs',
+      methods: {
+        onclick: function (tab) {
+          this.current = tab;
+        }
+      },
+      computed: {
+        tabNames: function () {
+          return Object.keys(this.tabs);
+        },
+        currentTab: function () {
+          return `tab-${this.current}`;
+        }
+      },
+      data: {
+        current: 'member',
+        tabs: {
+          'member': 'メンバー募集',
+          'new': '新刊紹介',
+          'env': '環境構築設定'
+        }
+      }
+    })
+    Vue.component('my-input', {
+      props: ['value'],
+      template: `<label>
+        名前:
+        <input type="text" :value="value" @input="$emit('input', $event.target.value)"/>
+      </label>`
+    });
+    Vue.component('my-input2', {
+      props: ['value'],
+      template: `<label>
+        名前:
+        <input type="text" v-model="internalValue"/>
+      </label>`,
+      computed: {
+        internalValue: {
+          get() {
+            return this.value;
+          },
+          set(newValue) {
+            if (this.value !== newValue) {
+              this.$emit('input', newValue);
+            }
+          }
+        }
+      }
+    })
+    new Vue({
+      el: '#model_basic',
+      data: {
+        message: '',
+        message2: ''
+      }
+    })
+    Vue.component('my-input-sync', {
+      props: ['value'],
+      template: `<label>
+        名前:
+        <input type="text" :value="value"
+          @input="$emit('update:value', $event.target.value)"/>
+      </label>`,
+    })
+    new Vue({
+      el: '#model_sync',
+      data: {
+        message: ''
+      }
+    })
+  </script>
+</body>

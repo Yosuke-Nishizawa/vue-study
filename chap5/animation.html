@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <style>
+    .flex {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    #panel,
+    #panel2,
+    #panel3 {
+      border: 1px solid #000;
+      width: 350px;
+      overflow: hidden;
+    }
+
+    #panel.v-enter-active,
+    #panel.v-leave-active {
+      transition: height 1s;
+    }
+
+    #panel.v-enter,
+    #panel.v-leave-to {
+      height: 0px;
+    }
+
+    #panel.v-enter-to,
+    #panel.v-leave {
+      height: 200px;
+    }
+
+    #panel2.v-enter-active,
+    #panel2.v-leave-active {
+      transition: opacity 5s;
+    }
+
+    #panel2.v-enter,
+    #panel2.v-leave-to {
+      opacity: 0;
+    }
+
+    #panel2.v-enter-to,
+    #panel2.v-leave {
+      opacity: 1;
+    }
+
+    @keyframes slide-in {
+      0% {
+        transform: translateX(100%);
+      }
+
+      10% {
+        transform: translateX(20%);
+      }
+
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    #panel3.v-enter-active {
+      animation: slide-in 1.5s;
+    }
+
+    #panel3.v-leave-active {
+      animation: slide-in 1.5s reverse;
+    }
+
+    .panel {
+      border: 1px solid #000;
+      width: 350px;
+      overflow: hidden;
+    }
+
+    .panel.v-enter-active,
+    .panel.v-leave-active {
+      transition: opacity 5s;
+    }
+
+    .panel.v-leave-active {
+      position: absolute;
+    }
+
+    .panel.v-enter,
+    .panel.v-leave-to {
+      opacity: 0;
+    }
+  </style>
+  <div class="flex">
+    <div id="anim">
+      <input type="button" value="表示/非表示" @click="onclick">
+      <transition appear>
+        <div id="panel" v-show="flag">
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+        </div>
+      </transition>
+      <transition>
+        <div id="panel2" v-show="flag">
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+        </div>
+      </transition>
+      <transition>
+        <div id="panel3" v-show="flag">
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+        </div>
+      </transition>
+    </div>
+    <div id="anim_switch">
+      <input type="button" value="切り替え" @click="onclick">
+      <transition>
+        <div class="panel" :key="id">
+          {{panels[id]}}
+        </div>
+      </transition>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#anim',
+      data: {
+        flag: true
+      },
+      methods: {
+        onclick: function () {
+          this.flag = !this.flag;
+        }
+      }
+    })
+    new Vue({
+      el: '#anim_switch',
+      data: {
+        id: 0,
+        panels: [
+          'WINGSプロジェクトは、ライター...',
+          '山田ほげ作の書籍に関するFAQ情報、...',
+
+          '環境設定については、ページ上部...'
+        ]
+      },
+      methods: {
+        onclick: function () {
+          this.id = (this.id + 1) % this.panels.length;
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
