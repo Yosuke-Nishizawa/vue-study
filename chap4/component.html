@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <my-hello></my-hello>
+  </div>
+  <div id="app2">
+    <my-hello></my-hello>
+  </div>
+  <div id="prop_basic">
+    <my-hello2 your-name="aaaaa"></my-hello2>
+  </div>
+  <div id="prop_inner">
+    <my-counter init="0"></my-counter>
+  </div>
+  <div id="prop_attr">
+    <my-hello3 title="input" my-attr="mytext" class="sub"></my-hello3>
+  </div>
+  <div id="emit_basic">
+    <p>現在値: {{current}}</p>
+    <my-counter2 step="1" @plus="onplus"></my-counter2>
+    <my-counter2 step="2" @plus="onplus"></my-counter2>
+    <my-counter2 step="-1" @plus="onplus"></my-counter2>
+  </div>
+  <div id="ev_parent">
+    <p>親:{{message}}</p>
+    <my-child ref="child"></my-child>
+  </div>
+  <div id="slot_basic">
+    <my-hello-slot>鈴木</my-hello-slot>
+  </div>
+  <div id="slot_multi">
+    <my-slot>
+      <template v-slot:header>
+        <h3>ようこそVue.jsへ</h3>
+      </template>
+      <p>一緒に勉強しましょう</p>
+      <template v-slot:footer>
+        <span>Written by WINGSプロジェクト</span>
+      </template>
+      <p>質問は掲示板へどうぞ。</p>
+    </my-slot>
+  </div>
+  <div id="slot_scope">
+    <my-book>
+      <template v-slot:default="{book}">
+        {{book.title}} ({{book.price}}円)
+      </template>
+    </my-book>
+    <my-book v-slot="{book}">
+      {{book.title}} ({{book.price}}円)
+    </my-book>
+  </div>
+  <!--/////////////////////////////////////////////-->
+  <!--/////////////////////////////////////////////-->
+  <!--/////////////////////////////////////////////-->
+  <!--/////////////////////////////////////////////-->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script>
+    Vue.component('my-hello', {
+      template: `<div>こんにちは、{{name}}!</div>`,
+      data: function () {
+        return {
+          name: 'Vue.js'
+        }
+      }
+    })
+    new Vue({
+      el: '#app'
+    })
+    new Vue({
+      el: '#app2',
+      component: {
+        'my-hello': {
+          template: `<div>こんにちは、{{name}}!</div>`,
+          data: function () {
+            return {
+              name: 'Vue.js'
+            }
+          }
+        }
+      }
+    })
+    Vue.component('my-hello2', {
+      props: {
+        yourName: {
+          type: String,
+          required: true,
+          validator: function (value) {
+            return value.length <= 5;
+          }
+        },
+      },
+      template: `<div>こんにちは、{{yourName}}さん!</div>`,
+
+    })
+    new Vue({
+      el: '#prop_basic',
+    })
+    Vue.component('my-counter', {
+      props: ['init'],
+      template: `<div>現在値は{{current}}です!
+      <input type="button" v-on:click="onclick" value="増やす"/></div>`,
+      data: function () {
+        return {
+          current: this.init
+        }
+      },
+      methods: {
+        onclick: function () {
+          this.current++;
+        }
+      }
+    })
+    new Vue({ el: '#prop_inner' });
+    Vue.component('my-hello3', {
+      template: `<div title="result" class="main">こんにちは、Vue.js!</div>`
+    })
+    new Vue({
+      el: '#prop_attr'
+    })
+    Vue.component('my-counter2', {
+      props: ['step'],
+      template: `<button type="button" @click="onclick">{{step}}</button>`,
+      methods: {
+        onclick: function () {
+          this.$emit('plus', Number(this.step));
+        }
+      }
+    })
+    new Vue({
+      el: '#emit_basic',
+      data: {
+        current: 0
+      },
+      methods: {
+        onplus: function (e) {
+          this.current += e;
+        }
+      }
+    })
+    Vue.component('my-child', {
+      data: function () {
+        return {
+          message: ''
+        }
+      },
+      template: '<p>子: {{message}}</p>',
+      mounted: function () {
+        this.$parent.message = '子から設定';
+      }
+    })
+    new Vue({
+      el: '#ev_parent',
+      data: {
+        message: ''
+      },
+      mounted: function () {
+        this.$refs.child.message = '親から設定'
+      }
+    })
+    Vue.component('my-hello-slot', {
+      props: ['yourName'],
+      template: `<div>こんにちは、<slot>ゲスト</slot>さん！</div>`,
+    })
+    new Vue({
+      el: '#slot_basic'
+    })
+    Vue.component('my-slot', {
+      template: `<div>
+        <header>
+          <slot name="header">DEFAULT HEADER</slot>
+        </header>
+        <div>
+          <slot>DEFAULT MAIN</slot>
+        </div>
+        <footer>
+          <slot name="footer">DEFAULT FOOTER</slot>
+        </footer>
+      </div>`
+    });
+    new Vue({
+      el: '#slot_multi'
+    })
+    Vue.component('my-book', {
+      data: function () {
+        return {
+          book: {
+            isbn: '99999',
+            title: 'hogehogebook',
+            price: 2000,
+            publish: 'piyopiyo'
+          }
+        }
+
+      },
+      template: `<div>
+        <slot v-bind:book="book">{{book.title}} ({{book.publish}})</slot>
+      </div>`
+    });
+    new Vue({
+      el: '#slot_scope'
+    })
+  </script>
+</body>
+
+</html>
