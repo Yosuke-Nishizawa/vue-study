@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .flex {
+      display: flex;
+      align-items: flex-start;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="flex">
+    <div>
+      <div id="dir_basic">
+        WINGSプロジェクトで一生に執筆してみませんか？<span v-highlight="color">メンバー募集中！</span>
+        ぜひ、ご応募ください。
+      </div>
+      <div id="dir_update">
+        <select id="" v-model="color">
+          <option value="yellow">黄色</option>
+          <option value="red">赤色</option>
+          <option value="blue">青色</option>
+        </select>
+        <p>WINGSプロジェクトで一緒に執筆してみませんか？
+          <span v-highlight="color">メンバー募集中！</span>
+          ぜひ、ご応募ください。
+        </p>
+      </div>
+      <div id="dir_old">
+        <label>名前: <input type="text" v-model="name" /></label><br />
+        <select id="" v-model="color">
+          <option value="yellow">黄色</option>
+          <option value="red">赤色</option>
+          <option value="blue">青色</option>
+        </select>
+        <p>WINGSプロジェクトで一緒に執筆してみませんか？
+          <span v-highlight2="color">メンバー募集中！</span>
+          ぜひ、ご応募ください。
+        </p>
+      </div>
+      <div id="dir_mod">
+        <select id="" v-model="color">
+          <option value="yellow">黄色</option>
+          <option value="red">赤色</option>
+          <option value="blue">青色</option>
+        </select>
+        <p>WINGSプロジェクトで一緒に執筆してみませんか？
+          <span v-highlight3.border="color">メンバー募集中！</span>
+          ぜひ、ご応募ください。
+        </p>
+      </div>
+      <div id="dir_arg">
+        <select id="" v-model="color">
+          <option value="yellow">黄色</option>
+          <option value="red">赤色</option>
+          <option value="blue">青色</option>
+        </select>
+        <p>WINGSプロジェクトで一緒に執筆してみませんか？
+          <span v-highlight4:border="color">メンバー募集中！</span>
+          ぜひ、ご応募ください。
+        </p>
+        <p>WINGSプロジェクトで一緒に執筆してみませんか？
+          <span v-highlight4:text="color">メンバー募集中！</span>
+          ぜひ、ご応募ください。
+        </p>
+        <p>WINGSプロジェクトで一緒に執筆してみませんか？
+          <span v-highlight4:bg="color">メンバー募集中！</span>
+          ぜひ、ご応募ください。
+        </p>
+      </div>
+      <div id="dir_event">
+        WINGSプロジェクトで一生に執筆してみませんか？<span v-highlight5="color">メンバー募集中！</span>
+        ぜひ、ご応募ください。
+      </div>
+      <div id="dir_wrapper">
+        <div v-markdown="options">
+          ### WINGSプロジェクト
+          ただいま**メンバー募集中です**です。
+          既存メンバーは、SE、~医師~、主婦など様々です。
+          主なお仕事は以下の通り。
+          + 書籍の執筆
+          + 雑誌記事の執筆
+          + Web記事の執筆
+        </div>
+      </div>
+
+    </div>
+    <div style="width:1px; height:100vh; background-color:black"></div>
+    <div>
+      <div id="filter">
+        <div :title="str | trim">
+          str: 「{{str|trim}}」
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    Vue.directive('highlight', {
+      bind: function (el, binding, vnode, oldVnode) {
+        el.style.backgroundColor = binding.value;
+      },
+      update: function (el, binding, vnode, oldVnode) {
+        el.style.backgroundColor = binding.value;
+      }
+    })
+    Vue.directive('highlight2', function (el, binding, vnode, oldVnode) {
+      if (binding.value === binding.oldValue) return;
+      console.log(binding.value);
+      el.style.backgroundColor = binding.value;
+    });
+    new Vue({
+      el: '#dir_basic',
+      data: {
+        color: 'yellow'
+      }
+    })
+    new Vue({
+      el: '#dir_update',
+      data: {
+        color: 'yellow'
+      }
+    })
+    new Vue({
+      el: '#dir_old',
+      data: {
+        name: '名無しの権兵衛',
+        color: 'yellow'
+      }
+    })
+    const hook = function (el, binding) {
+      if (binding.value === binding.oldValue) return;
+      if (binding.modifiers.border) {
+        el.style.borderColor = binding.value;
+        el.style.borderStyle = 'solid';
+      } else {
+        el.style.backgroundColor = binding.value;
+      }
+    }
+    Vue.directive('highlight3', {
+      bind: hook,
+      update: function (el, binding, vnode, oldVnode) {
+        if (binding.modifiers.once) return;
+        hook(el, binding);
+      }
+    })
+    new Vue({
+      el: '#dir_mod',
+      data: {
+        color: 'yellow'
+      }
+    })
+    Vue.directive('highlight4', function (el, binding, vnode, oldVnode) {
+      switch (binding.arg) {
+        case 'bg':
+          el.style.backgroundColor = binding.value;
+          break;
+        case 'border':
+          el.style.borderStyle = 'solid';
+          el.style.borderWidth = '1px';
+          el.style.borderColor = binding.value;
+          break;
+        case 'text':
+          el.style.fontWeight = 'bold';
+          el.style.color = binding.value;
+          break;
+        default:
+          throw new Error('指定のハイライトは使えません')
+      }
+    })
+    new Vue({
+      el: '#dir_arg',
+      data: {
+        color: 'yellow'
+      }
+    })
+    Vue.directive('highlight5', {
+      bind: function (el, binding) {
+        el.addEventListener('mouseenter', function () {
+          this.style.backgroundColor = binding.value;
+        }, false);
+        el.addEventListener('mouseleave', function () {
+          this.style.backgroundColor = null;
+        }, false);
+      }
+    })
+    new Vue({
+      el: '#dir_event',
+      data: {
+        color: 'yellow'
+      }
+    })
+    Vue.directive('markdown', function (el, binding, vnode, oldVnode) {
+      el.innerHTML = marked(el.textContent.replace(/^ +/gm, ''), binding.value);
+    })
+    new Vue({
+      el: '#dir_wrapper',
+      data: {
+        options: {
+          gfm: true,// GitHub使用のmarkdown
+          breaks: true,//単一改行を<br>タグにするか
+          xhtml: true,//からタグを/>に
+        }
+      }
+    })
+    Vue.filter('trim', function (value) {
+      if (typeof value !== 'string') {
+        return value;
+      }
+      return value.trim();
+    })
+    new Vue({
+      el: '#filter',
+      data: {
+        str: '  WINGS Project  '
+      }
+    })
+  </script>
+
+</body>
+
+</html>
