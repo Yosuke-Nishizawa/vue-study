@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <title>Document</title>
 </head>
 
@@ -80,17 +81,13 @@
       overflow: hidden;
     }
 
-    .panel.v-enter-active,
-    .panel.v-leave-active {
+    .panel-enter-active,
+    .panel-leave-active {
       transition: opacity 5s;
     }
 
-    .panel.v-leave-active {
-      position: absolute;
-    }
-
-    .panel.v-enter,
-    .panel.v-leave-to {
+    .panel-enter,
+    .panel-leave-to {
       opacity: 0;
     }
   </style>
@@ -139,14 +136,51 @@
     </div>
     <div id="anim_switch">
       <input type="button" value="切り替え" @click="onclick">
-      <transition>
+      <transition mode="out-in" name="panel">
         <div class="panel" :key="id">
           {{panels[id]}}
         </div>
       </transition>
     </div>
+    <div>
+      <h1 class="animate__animated animate__bounce">Vue.js</h1>
+    </div>
+    <div id="anim_custom">
+      <input type="button" value="表示/非表示" @click="onclick">
+      <transition enter-active-class="animate__animated animate__rotateIn"
+        leave-active-class="animate__animated animate__rotateOut">
+        <div id="panel" v-show="flag">
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+        </div>
+      </transition>
+    </div>
+    <div id="anim_js">
+      <input type="button" value="表示/非表示" @click="onclick">
+      <transition :css="false" @enter="onenter" @leave="onleave">
+        <div id="panel" v-show="flag">
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+          WINGSプロジェクトで一緒に...<br />
+        </div>
+      </transition>
+    </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/2.0.6/velocity.min.js"></script>
   <script>
     new Vue({
       el: '#anim',
@@ -175,6 +209,34 @@
           this.id = (this.id + 1) % this.panels.length;
         }
       }
+    })
+    new Vue({
+      el: '#anim_custom',
+      data: {
+        flag: true
+      },
+      methods: {
+        onclick: function () {
+          this.flag = !this.flag;
+        }
+      }
+    })
+    new Vue({
+      el: '#anim_js',
+      data: {
+        flag: true
+      },
+      methods: {
+        onclick: function () {
+          this.flag = !this.flag;
+        },
+        onenter: function (el, done) {
+          Velocity(el, { opacity: 1 }, { duration: 2000, complete: done });
+        },
+        onleave: function (el, done) {
+          Velocity(el, { opacity: 0 }, { duration: 2000, complete: done });
+        }
+      },
     })
   </script>
 </body>

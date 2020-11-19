@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .anim-list-enter-active,
+    .anim-list-leave-active,
+    .anim-list-move {
+      transition: transform 1s;
+    }
+
+    .anim-list-enter,
+    .anim-list-leave-to {
+      transform: translateX(80%);
+    }
+
+    .anim-list-leave-active {
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="anim_list">
+    <div id="list">
+      <form>
+        <label for="todo">やること:</label>
+        <input type="text" id="todo" size="40" v-model="todo"><br />
+        <input type="button" value="追加" @click="onadd">
+        <input type="button" value="削除" @click="onremove">
+        <input type="button" value="ソート" @click="onsort">
+      </form>
+      <transition-group tag="ul" name="anim-list">
+        <li v-for="item in items" :key="item">{{item}}</li>
+      </transition-group>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#anim_list',
+      data: {
+        todo: '',
+        items: [
+          'A書籍の構成案作成',
+
+          'X記事の著者構成',
+          '今月締めの請求職作成',
+          'WINGSメンバーの面接'
+        ]
+      },
+      methods: {
+        onadd: function () {
+          this.items.unshift(this.todo);
+          this.todo = '';
+        },
+        onremove: function () {
+          let that = this;
+          this.items = this.items.filter(function (value) {
+            return value !== that.todo;
+          });
+          this.todo = '';
+        },
+        onsort: function () {
+          this.items.sort();
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
